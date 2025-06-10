@@ -121,7 +121,7 @@ export default function CommunityFeed() {
                                 }
                             }}
                         >
-                            <img src={createdBy.profilePicture || '/images/Defaultprofile.jpg'} alt="Profile" className="w-10 h-10 rounded-full object-cover" />
+                            <img src={createdBy.profilePicture || '/images/DefaultProfile.jpg'} alt="Profile" className="w-10 h-10 rounded-full object-cover" />
                             <span className="text-white font-medium">{createdBy.name}</span>
                             <span className='ms-auto bg-gradient-to-r from-orange-500 to-red-500 rounded-full py-1 px-2 text-xs font-semibold'>admin</span>
                         </div>

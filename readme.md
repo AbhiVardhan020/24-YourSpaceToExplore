@@ -1,6 +1,6 @@
 # 24 - Your Space To Explore
 
-**24** is a MERN-stack based career-focused social networking platform created for students aged 14 and above. It’s a space where young minds can connect beyond STEM, explore career interests, join niche communities, and get mentorship from experienced professionals.
+*24* is a MERN-stack based career-focused social networking platform created for students aged 14 and above. It’s a space where young minds can connect beyond STEM, explore career interests, join niche communities, and get mentorship from experienced professionals.
 
 ---
 
@@ -11,30 +11,30 @@ https://24-your-space-to-explore.vercel.app
 
 ## 🌟 Features
 
-* **User Profiles**
+* ### User Profiles
   Create personal profiles including career interests, bio, and more.
 
-* **Community Building**
+* ### Community Building
   Join or explore communities based on career paths.
 
-* **Mentorship & Messaging**
+* ### Mentorship & Messaging
   Chat with mentors and peers directly through an integrated messaging system.
 
-* **Post, Like & Comment**
+* ### Post, Like & Comment
   Share your thoughts, experiences, and engage with the community.
 
-* **Search Functionality**
+* ### Search Functionality
   Search users and communities with ease.
 
-* **Modern UI Design**
+* ### Modern UI Design
   Clean and user-friendly design, built for large screens.
 
-* **Cloudinary Integration**
+* ### Cloudinary Integration
   All images (including profile pictures and post images) are hosted securely on [Cloudinary](https://cloudinary.com/).
 
 ---
 
-## ⚙️ How to Clone & Run This Project Locally
+## ⚙ How to Clone & Run This Project Locally
 
 ### Prerequisites
 
@@ -64,7 +64,7 @@ npm install
 
 ### 3. Environment Variables
 
-Create a `.env` file in the `frontend` folder with the following variables:
+Create a .env file in the frontend folder with the following variables:
 
 ```bash
 REACT_APP_BACKEND_URL = http://localhost:3001
@@ -72,7 +72,7 @@ REACT_APP_CLOUDINARY_API = your_api_key
 REACT_APP_CLOUD_NAME = your_cloudinary_cloud_name
 ```
 
-Create a `.env` file in the `backend` folder with the following variables:
+Create a .env file in the backend folder with the following variables:
 
 ```bash
 MONGODB_URL = your_mongodb_url
@@ -94,20 +94,20 @@ npm start
 ### 5. Visit the App
 
 Open your browser and go to:
-`http://localhost:3000`
+http://localhost:3000
 
 ---
 
-## ⚠️ Notes
+## ⚠ Notes
 
-* The website is **designed only for large screens** (PCs, laptops).
+* The website is *designed only for large screens* (PCs, laptops).
 * Mobile and tablet responsiveness is not supported at the moment.
 
 ---
 
 ## 📸 Image Hosting
 
-All user-uploaded images, profile pictures, and post media are stored on **Cloudinary** to ensure fast and reliable image delivery.
+All user-uploaded images, profile pictures, and post media are stored on *Cloudinary* to ensure fast and reliable image delivery.
 
 ---
 
@@ -127,4 +127,4 @@ Feel free to reach out if you’re interested in collaborating or contributing t
 
 ---
 
-**24 - Your Space To Explore** 🌐
+*24 - Your Space To Explore* 🌐
