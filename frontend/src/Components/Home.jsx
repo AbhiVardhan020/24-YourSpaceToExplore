@@ -20,7 +20,7 @@ export default function LandingPage() {
                 <div className="absolute inset-0 bg-black opacity-70"></div> {/* Overlay for readability */}
                 <div className="relative z-10 max-w-4xl mx-auto">
                     <h1 className="text-5xl md:text-6xl font-extrabold mb-6 animate-fade-in-up">
-                        Connect. Share. Discover. Your World, on <span className="text-purple-400">24</span>.
+                        <span className="text-purple-400">24</span> Your Space To Explore
                     </h1>
                     <p className="text-lg md:text-xl mb-10 leading-relaxed max-w-3xl mx-auto animate-fade-in-up delay-100">
                         Experience a vibrant community designed for authentic interactions and meaningful connections. Join the future of social networking today.
