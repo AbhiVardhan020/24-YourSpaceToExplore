@@ -13,10 +13,17 @@ export default function SearchComponent() {
     const navigate = useNavigate()
 
     const userId = localStorage.getItem('userId')
+    const token = localStorage.getItem('token')
 
     const searchFunction = async ()=>{
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/search`, { query })
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/search`, { query }, 
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
             setSearchUsers(res.data.users)
             setSearchCommunities(res.data.communities)
         } catch (error) {

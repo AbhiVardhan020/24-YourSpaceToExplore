@@ -9,6 +9,7 @@ const PostModal = ({ isOpen, post, onClose, user, userId, name, profilePicture, 
     const [newComment, setNewComment] = React.useState('');
     const [comments, setComments] = React.useState([]);
     const [likedBy, setLikedBy] = React.useState([]);
+    const token = localStorage.getItem('token')
 
     const [liked, setLiked] = React.useState(false);
     const [likesCount, setLikesCount] = React.useState(0);
@@ -18,7 +19,13 @@ const PostModal = ({ isOpen, post, onClose, user, userId, name, profilePicture, 
         try {
             const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/addComment`, {
                 userId, postId, comment, name, profilePicture, type, fromId: user._id
-            });
+            },
+            {
+                headers: {
+                Authorization: `Bearer ${token}`,
+                },
+            }
+        );
             setComments(prev => [{
                 name: name,
                 comment: newComment,
@@ -34,7 +41,13 @@ const PostModal = ({ isOpen, post, onClose, user, userId, name, profilePicture, 
 
     const getCommentsLikes = async () => {
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/getCommentsLikes`, { postId: post._id, userId, type });
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/getCommentsLikes`, { postId: post._id, userId, type },
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             setComments(res.data.comments);
             setLiked(res.data.liked);
             setLikesCount(res.data.likesCount);
@@ -46,7 +59,13 @@ const PostModal = ({ isOpen, post, onClose, user, userId, name, profilePicture, 
 
     const handleDeleteComment = async (commentId) => {
         try {
-            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/deleteComment`, { commentId });
+            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/deleteComment`, { commentId },
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             setComments(prev => prev.filter(comment => comment._id !== commentId));
         } catch (error) {
             console.error(error.message);
@@ -55,7 +74,13 @@ const PostModal = ({ isOpen, post, onClose, user, userId, name, profilePicture, 
 
     const toggleLike = async () => {
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/toggleLike`, { userId, postId: post._id, type, name, profilePicture, fromId: user._id });
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/toggleLike`, { userId, postId: post._id, type, name, profilePicture, fromId: user._id },
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             if(!liked){
                 setLikedBy(prev=>[{
                     name,profilePicture
@@ -72,7 +97,13 @@ const PostModal = ({ isOpen, post, onClose, user, userId, name, profilePicture, 
 
     const deletePost = async () => {
         try {
-            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/deletePost`, { postId: post._id, type });
+            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/deletePost`, { postId: post._id, type },
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             onClose();
             window.location.reload(); 
         } catch (error) {

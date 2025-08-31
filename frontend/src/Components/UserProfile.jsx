@@ -26,6 +26,7 @@ export default function UserProfile() {
     const userId = localStorage.getItem('userId'); 
     const profilePicture = localStorage.getItem('profilePicture'); 
     const name = localStorage.getItem('name'); 
+    const token = localStorage.getItem('token')
 
     const [user, setUser] = React.useState(null); 
     const [posts, setPosts] = React.useState([]); 
@@ -42,7 +43,7 @@ export default function UserProfile() {
 
     React.useEffect(() => {
         if (targetId === userId) {
-            navigate('/24/my-profile');
+            navigate('/24/me/profile', {userId});
         }
     }, [targetId, userId, navigate]);
 
@@ -52,7 +53,13 @@ export default function UserProfile() {
             return;
         }
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/getUserProfile`, { userId: userId, targetId });
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/getUserProfile`, { userId: userId, targetId },
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             setUser(res.data.userProfile);
             setPosts(res.data.userProfile.posts);
             setIsFollowing(res.data.isFollowing);
@@ -72,7 +79,13 @@ export default function UserProfile() {
             const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/getConnections`, {
                 targetId, 
                 type,
-            });
+            },
+            {
+                headers: {
+                Authorization: `Bearer ${token}`,
+                },
+            }
+        );
             setModalUsers(res.data.users);
             setModalTitle(type);
             setShowConnectionModal(true);
@@ -90,7 +103,13 @@ export default function UserProfile() {
 
         setIsProcessingFollow(true);
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/toggleFollow`, { userId, targetId, isFollowing });
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/toggleFollow`, { userId, targetId, isFollowing },
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             setIsFollowing(res.data.isFollowing);
             toast.success(res.data.message || (isFollowing ? "Unfollowed!" : "Followed!"), toastSettings);
             fetchProfile(); 

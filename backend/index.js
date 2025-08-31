@@ -2,6 +2,7 @@
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 mongoose.connect(process.env.MONGODB_URL)
@@ -38,6 +39,24 @@ app.use(
 app.use(express.json())
 
 app.use('/auth', authRoutes)
+
+app.use((req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  console.log(token)
+
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+
+    try {
+      const decoded = jwt.verify(token, "JWT_SECRET");
+      next();
+    } catch (err) {
+      return res.status(403).json({ message: "Invalid or expired token" });
+    }
+});
+
 app.use('/user', userRoutes)
 app.use('/message', messageRoutes)
 app.use('/community', communityRoutes)

@@ -6,7 +6,6 @@ import { ToastContainer } from 'react-toastify'
 
 export default function Layout() {
 
-
     const userId = localStorage.getItem('userId')
     const name = localStorage.getItem('name')
     const token = localStorage.getItem('token')
@@ -14,13 +13,6 @@ export default function Layout() {
 
     const navigate = useNavigate()
 
-    const logout = ()=>{
-        localStorage.removeItem('userId')
-        localStorage.removeItem('name')
-        localStorage.removeItem('token')
-        localStorage.removeItem('profilePicture')
-        navigate('/')
-    }
 
     if(!userId){
         return(

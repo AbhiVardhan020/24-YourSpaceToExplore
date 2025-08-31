@@ -15,6 +15,7 @@ export default function CommunityChat() {
     const userId = localStorage.getItem('userId');
     const name = localStorage.getItem('name');
     const profilePicture = localStorage.getItem('profilePicture')
+    const token = localStorage.getItem('token')
 
     const [messages, setMessages] = React.useState([])
 
@@ -24,7 +25,13 @@ export default function CommunityChat() {
 
     const getChatMessages = async ()=>{
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/community/getMessages`, {communityId})
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/community/getMessages`, {communityId},
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
             setMessages(res.data.messages)
 
         } catch (error) {

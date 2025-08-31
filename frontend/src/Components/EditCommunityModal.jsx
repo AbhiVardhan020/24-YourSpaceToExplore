@@ -18,6 +18,8 @@ const EditCommunityModal = ({ title, image, description, tags, setShowEditProfil
         image
     })
 
+    const token = localStorage.getItem('token')
+
     const [photoUploaded,  setPhotoUploaded] = React.useState(true)
 
     
@@ -84,7 +86,13 @@ const EditCommunityModal = ({ title, image, description, tags, setShowEditProfil
                 return
             }
             
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/community/editProfile`, { communityId, newData })
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/community/editProfile`, { communityId, newData }, 
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
     
             if(res.data.success){
                 localStorage.setItem('image', newData.image)

@@ -27,6 +27,7 @@ export default function MyProfile() {
     const userId = localStorage.getItem('userId');
     const name = localStorage.getItem('name'); 
     const profilePicture = localStorage.getItem('profilePicture');
+    const token = localStorage.getItem('token')
 
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState([]);
@@ -45,7 +46,13 @@ export default function MyProfile() {
     const fetchProfile = async () => {
         setLoadingProfile(true);
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/getMyProfile`, { userId: userId });
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/getMyProfile`, { userId: userId },
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             setUser(res.data.userProfile);
             setPosts(res.data.userProfile.posts);
             setError(null); 
@@ -63,7 +70,13 @@ export default function MyProfile() {
             const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/getConnections`, {
                 targetId: userId,
                 type,
-            });
+            },
+            {
+                headers: {
+                Authorization: `Bearer ${token}`,
+                },
+            }
+            );
             setModalUsers(res.data.users);
             setModalTitle(type);
             setShowConnectionModal(true);
@@ -140,7 +153,13 @@ export default function MyProfile() {
 
             setIsSubmitting(true);
             try {
-                await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/createUserPost`, { userId: userId, newPost });
+                await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/createUserPost`, { userId: userId, newPost },
+                    {
+                        headers: {
+                        Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
                 toast.success('Post created successfully! Refreshing page...', toastSettings);
                 setTimeout(() => {
                     setShowNewPost(false);
@@ -341,16 +360,6 @@ export default function MyProfile() {
                         <p className="text-gray-300 text-lg max-w-2xl mx-auto sm:mx-0 leading-relaxed mb-4">
                             {user.bio || "No bio available. Express yourself!"}
                         </p>
-                        {user.location && (
-                            <p className="text-gray-400 text-base flex items-center justify-center sm:justify-start mb-2">
-                                <i className="fas fa-map-marker-alt mr-2 text-purple-400"></i> {user.location}
-                            </p>
-                        )}
-                        {user.website && (
-                            <a href={user.website} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline flex items-center justify-center sm:justify-start">
-                                <i className="fas fa-globe mr-2 text-blue-400"></i> {user.website.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0]}
-                            </a>
-                        )}
                     </div>
 
                     {/* Action Buttons */}

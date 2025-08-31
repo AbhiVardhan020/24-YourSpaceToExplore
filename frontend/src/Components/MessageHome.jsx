@@ -7,6 +7,7 @@ const MessageHome = () => {
 
     const name = localStorage.getItem('name')
     const userId = localStorage.getItem('userId')
+    const token = localStorage.getItem('token')
 
     const navigate = useNavigate()
 
@@ -15,7 +16,13 @@ const MessageHome = () => {
 
     const getPeople = async ()=>{
 
-        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/message/getPeople`, {userId})
+        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/message/getPeople`, {userId},
+            {
+                headers: {
+                Authorization: `Bearer ${token}`,
+                },
+            }
+        )
 
         setPeople(res.data.recentChats)
 

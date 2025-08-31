@@ -5,6 +5,7 @@ import { Trash2 } from 'lucide-react'
 export default function Notifications() {
 
     const userId = localStorage.getItem('userId')
+    const token = localStorage.getItem('token')
 
     const [opened, setOpened] = React.useState([])
     const [notOpened, setNotOpened] = React.useState([])
@@ -12,7 +13,13 @@ export default function Notifications() {
 
     const getNotifications = async()=>{
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/getNotifications`, { userId })
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/getNotifications`, { userId },
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
             setOpened(res.data.opened)
             setNotOpened(res.data.notOpened) 
         } catch (error) {
@@ -22,7 +29,13 @@ export default function Notifications() {
 
     const makeAllRead = async()=>{
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/makeAllRead`, { userId })
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/makeAllRead`, { userId },
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
         } catch (error) {
             return null
         }
@@ -30,7 +43,13 @@ export default function Notifications() {
     
     const deleteAllNotifications = async()=>{
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/deleteAllNotifications`, { userId })
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/deleteAllNotifications`, { userId },
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
             window.location.reload()
         } catch (error) {
             return null

@@ -9,12 +9,19 @@ export default function ExploreAccounts() {
     const [communities, setCommunities] = React.useState([])
 
     const tag = useParams().tag
+    const token = localStorage.getItem('token')
 
     const navigate = useNavigate()
 
     const fetchData = async ()=>{
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/fetchByTags`, { tag })
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/fetchByTags`, { tag },
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
             setUsers(res.data.users)
             setCommunities(res.data.communities)
         } catch (error) {

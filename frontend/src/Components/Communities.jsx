@@ -15,6 +15,7 @@ export default function Communities() {
 
     const name = localStorage.getItem('name')
     const userId = localStorage.getItem('userId')
+    const token = localStorage.getItem('token')
 
     const [communities, setCommunities] = React.useState([])
     const [popup, setPopup] = React.useState(false)
@@ -34,7 +35,13 @@ export default function Communities() {
 
     const getCommunities = async ()=>{
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/community/getCommunities`, {userId})
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/community/getCommunities`, {userId},
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
             setCommunities(res.data.communities)
         } catch (error) {
             console.log('Error occured')
@@ -123,7 +130,13 @@ export default function Communities() {
             const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/community/createCommunity`, {
                 newCommunity,
                 createdBy: userId,
-            })
+            },
+            {
+                headers: {
+                Authorization: `Bearer ${token}`,
+                },
+            }
+            )
 
             if(res.data.success){
                 toast('Community successfully created', toastSettings)

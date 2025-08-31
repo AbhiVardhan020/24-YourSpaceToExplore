@@ -32,6 +32,7 @@ export default function CommunityFeed() {
     const userId = localStorage.getItem('userId');
     const name = localStorage.getItem('name'); 
     const profilePicture = localStorage.getItem('profilePicture'); 
+    const token = localStorage.getItem('token')
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -47,7 +48,13 @@ export default function CommunityFeed() {
             return;
         }
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/community/getCommunityDetails`, { communityId, userId });
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/community/getCommunityDetails`, { communityId, userId },
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             setPosts(res.data.posts);
             setCommunity(res.data.community);
             setJoined(res.data.isJoined);
@@ -66,7 +73,13 @@ export default function CommunityFeed() {
 
         setIsProcessingJoin(true);
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/community/toggleJoin`, { communityId, userId, joined });
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/community/toggleJoin`, { communityId, userId, joined },
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             if (res.data.success) {
                 setJoined(!joined);
                 toast.success(res.data.message || (joined ? "Left community!" : "Joined community!"), toastSettings);
@@ -87,7 +100,13 @@ export default function CommunityFeed() {
 
         const getMembers = async () => {
             try {
-                const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/community/getMembers`, { communityId });
+                const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/community/getMembers`, { communityId },
+                    {
+                        headers: {
+                        Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
                 setMembers(res.data.members);
                 setCreatedBy(res.data.createdBy);
             } catch (error) {
@@ -170,7 +189,13 @@ export default function CommunityFeed() {
                     return;
                 }
                 
-                await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/createCommunityPost`, { communityId, newPost, userId }); 
+                await axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/createCommunityPost`, { communityId, newPost, userId },
+                    {
+                        headers: {
+                        Authorization: `Bearer ${token}`,
+                        },
+                    }
+                ); 
                 toast.success('Post created successfully! Please refresh the page.', toastSettings); 
                 setShowNewPost(false);
                 getCommunity(); 

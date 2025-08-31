@@ -30,6 +30,8 @@ const EditProfileModal = ({ userId, name, bio, careerInterests, profilePicture, 
         profilePicture
     });
 
+    const token = localStorage.getItem('token')
+
     const [photoUploading, setPhotoUploading] = React.useState(false); 
     const [isSaving, setIsSaving] = React.useState(false); 
 
@@ -91,7 +93,13 @@ const EditProfileModal = ({ userId, name, bio, careerInterests, profilePicture, 
 
         setIsSaving(true); 
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/editProfile`, { userId, newData });
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/editProfile`, { userId, newData },
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
             if (res.data.success) {
                 localStorage.setItem('profilePicture', newData.profilePicture);

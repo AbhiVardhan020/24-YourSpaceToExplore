@@ -9,6 +9,7 @@ function ChatComponent() {
     const userId = localStorage.getItem("userId");
     const name = localStorage.getItem("name");
     const profilePicture = localStorage.getItem("profilePicture");
+    const token = localStorage.getItem('token')
 
     const { targetId } = useParams();
     const location = useLocation();
@@ -24,7 +25,12 @@ function ChatComponent() {
     const getMessages = async () => {
         const res = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/message/getMessages`,
-        { userId, targetId }
+        { userId, targetId },
+        {
+            headers: {
+            Authorization: `Bearer ${token}`, // send token in Authorization header
+            },
+        }
         );
         setMessages(res.data.messages);
     };
@@ -70,14 +76,13 @@ function ChatComponent() {
                 year: "numeric",
                 });
 
-
             return {
                 ...prev,
                 [dateKey]: prev[dateKey] ? [...prev[dateKey], message] : [message],
             };
         });
         } else {
-            
+            return
         }
         });
 
