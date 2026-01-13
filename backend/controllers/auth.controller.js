@@ -14,7 +14,7 @@ exports.register = async (req, res) => {
             const token = jwt.sign(
                             { id: user._id.toString() }, 
                             process.env.JWT_SECRET, 
-                            { expiresIn: "1m" }
+                            { expiresIn: "1d" }
                         );
 
             return res.send({ success: true, message: "User created", token });
@@ -40,7 +40,7 @@ exports.login = async (req, res) => {
             const token = jwt.sign(
                         { id: findUser._id }, 
                         process.env.JWT_SECRET, 
-                        { expiresIn: "1m" }
+                        { expiresIn: "1d" }
                     );
             return res.send({ 
                 success: true, 
