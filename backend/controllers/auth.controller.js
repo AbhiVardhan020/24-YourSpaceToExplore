@@ -11,7 +11,12 @@ exports.register = async (req, res) => {
         if (!exists && !nameExists) {
             const hashPwd = await bcrypt.hash(password, 10)
             const user = await UserModel.create({ name, email, password: hashPwd });
-            const token = jwt.sign({ id: user._id.toString() }, "JWT_SECRET");
+            const token = jwt.sign(
+                            { id: user._id.toString() }, 
+                            process.env.JWT_SECRET, 
+                            { expiresIn: "1m" }
+                        );
+
             return res.send({ success: true, message: "User created", token });
         }
 
@@ -32,7 +37,11 @@ exports.login = async (req, res) => {
         }
 
         if (await bcrypt.compare(password, findUser.password)) {
-            const token = jwt.sign({ id: findUser._id }, "JWT_SECRET");
+            const token = jwt.sign(
+                        { id: findUser._id }, 
+                        process.env.JWT_SECRET, 
+                        { expiresIn: "1m" }
+                    );
             return res.send({ 
                 success: true, 
                 message: 'Login success', 

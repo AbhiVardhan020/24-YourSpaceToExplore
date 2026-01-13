@@ -2,24 +2,45 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import { House, MessageCircle, Tag, Users, Search, Bell } from 'lucide-react'
 import NotLoggedIn from './NotLoggedIn'
 import { ToastContainer } from 'react-toastify'
+import { jwtDecode } from 'jwt-decode'
+import React from 'react'
 
 
 export default function Layout() {
 
-    const userId = localStorage.getItem('userId')
-    const name = localStorage.getItem('name')
-    const token = localStorage.getItem('token')
-    const profilePicture = localStorage.getItem('profilePicture')
+    const [authorized, setAuthorized] = React.useState(true);
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+    const profilePicture = localStorage.getItem("profilePicture");
 
     const navigate = useNavigate()
 
+    React.useEffect(() => {
 
-    if(!userId){
-        return(
-            <div className='h-screen p-4 bg-black'>
-                <NotLoggedIn />
-            </div>
-        )
+        if (!token || !userId) {
+            setAuthorized(false);
+            return;
+        }
+
+        try {
+        const { exp } = jwtDecode(token);
+
+        if (Date.now() >= exp * 1000) {
+            localStorage.clear();
+            setAuthorized(false);
+        }
+        } catch (err) {
+            localStorage.clear();
+            setAuthorized(false);
+        }
+    }, []);
+
+    if (!authorized) {
+        return (
+        <div className="h-screen p-4 bg-black">
+            <NotLoggedIn />
+        </div>
+        );
     }
 
     return (
